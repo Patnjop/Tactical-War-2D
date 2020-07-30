@@ -16,12 +16,9 @@ public class DeckManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //handofCards = hand.cards;
         CreateDeck();
         ShuffleDeck();
-        DrawCards(startingHandSize);
-        hand.InstantiateHand();
-        
+        //DrawCards(startingHandSize);
     }
 
     // Update is called once per frame
@@ -30,7 +27,6 @@ public class DeckManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             DrawCards(1f);
-            hand.InstantiateHand();
         }
 
         if (deckSize <= 0)
@@ -85,6 +81,7 @@ public class DeckManager : MonoBehaviour
             hand.handSize++;
             currentHandCount++;
             deckSize--;
+            hand.UpdateHand();
         }
     }
 

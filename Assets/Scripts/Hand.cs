@@ -32,20 +32,21 @@ public class Hand : MonoBehaviour
         }
     }
 
-    public void InstantiateHand()
+    public void UpdateHand()
     {
         if (handSize > 5 && handSize <= 10)
         {
             cardGap -= 5f;
         }
 
-        float firstCardX = ((handSize - 1) * 0.5f * cardWidth + (handSize - 1) * 0.5f * cardGap) + (CanvasRect.position.x);
+        var firstCardX = ((handSize - 1) * 0.5f * cardWidth + (handSize - 1) * 0.5f * cardGap) + (CanvasRect.position.x);
         for (int i = 0; i < handSize; i++)
         {
             _transformPosition.x = firstCardX - (i * (cardGap + cardWidth));
             _transformPosition.y = (CanvasRect.position.y / 4);
             cards[i].GetComponent<RectTransform>().position = _transformPosition;
             cards[i].GetComponent<Canvas>().sortingOrder = i;
+            cards[i].GetComponent<CardDragDrop>().inHand = true;
         }
     }
 
@@ -55,6 +56,7 @@ public class Hand : MonoBehaviour
         for (int d = discardCount - 1; d >= 0; d--)
         {
             cards[d].transform.position = DiscardPile.transform.position;
+            cards[d].GetComponent<CardDragDrop>().inHand = false;
             GameObject cardToDiscard = cards[d];
             cards.Remove(cards[d]);
             DiscardPile.discardPile.Add(cardToDiscard);
