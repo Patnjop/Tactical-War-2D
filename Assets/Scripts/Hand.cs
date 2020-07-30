@@ -11,11 +11,14 @@ public class Hand : MonoBehaviour
     public DeckManager DeckManager;
     private Vector3 _transformPosition;
     private float initialCardGap;
+    public GameObject Canvas;
+    RectTransform CanvasRect;
 
     // Start is called before the first frame update
     void Start()
     {
         initialCardGap = cardGap;
+        CanvasRect = Canvas.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -31,22 +34,18 @@ public class Hand : MonoBehaviour
 
     public void InstantiateHand()
     {
-        if (handSize > 5 && handSize <= 8)
+        if (handSize > 5 && handSize <= 10)
         {
-            cardGap -= 0.025f * handSize;
-        }
-        else if (handSize > 8 && handSize <= 10)
-        {
-            cardGap -= 0.016f * handSize;
+            cardGap -= 5f;
         }
 
-        float firstCardX = (handSize - 1) * 0.5f * cardWidth + (handSize - 1) * 0.5f * cardGap;
+        float firstCardX = ((handSize - 1) * 0.5f * cardWidth + (handSize - 1) * 0.5f * cardGap) + (CanvasRect.position.x);
         for (int i = 0; i < handSize; i++)
         {
             _transformPosition.x = firstCardX - (i * (cardGap + cardWidth));
-            _transformPosition.y = -3.25f;
-            cards[i].transform.position = _transformPosition;
-            cards[i].GetComponent<SpriteRenderer>().sortingOrder = i;
+            _transformPosition.y = (CanvasRect.position.y / 4);
+            cards[i].GetComponent<RectTransform>().position = _transformPosition;
+            cards[i].GetComponent<Canvas>().sortingOrder = i;
         }
     }
 

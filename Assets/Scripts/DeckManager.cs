@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
-    public GameObject card;
+    public GameObject card, canvas;
     public float deckSize, handSizeMax, currentHandCount, startingHandSize;
     public List<GameObject> deck = new List<GameObject>();
     public List<GameObject> handofCards = new List<GameObject>();
@@ -21,6 +21,7 @@ public class DeckManager : MonoBehaviour
         ShuffleDeck();
         DrawCards(startingHandSize);
         hand.InstantiateHand();
+        
     }
 
     // Update is called once per frame
@@ -43,7 +44,7 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < deckSize; i++)
         {
-            GameObject newCard = Instantiate(card);
+            GameObject newCard = Instantiate(card, canvas.transform, true);
             newCard.transform.position = transform.position;
             deck.Add(newCard);
             deck[i].name = "Card number " + i;
