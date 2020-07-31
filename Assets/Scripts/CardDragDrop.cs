@@ -8,17 +8,16 @@ using UnityEngine.UIElements;
 public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool inHand;
-    public Hand hand;
-    private bool isDragging = false;
+    private bool isDragging, placeable = false;
     private Vector2 startposition, hoverStart, startScale;
-    private RectTransform _rectTransform, childrenTransform;
+    private RectTransform _rectTransform;
     private Canvas _canvas;
     private int startOrder;
+    
     private void Start()
     {
         _canvas = GetComponent<Canvas>();
         _rectTransform = GetComponent<RectTransform>();
-        childrenTransform = GetComponentInChildren<RectTransform>();
         startScale = _rectTransform.localScale;
     }
 
@@ -30,13 +29,13 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
-    public void startDrag()
+    public void StartDrag()
     {
         if (inHand == true)
         {
-            startposition = transform.position;
+            ResetCard();
             isDragging = true;
-            _rectTransform.localScale = startScale;
+            SetCard();
         }
     }
 
@@ -45,21 +44,21 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (inHand == true)
         {
             isDragging = false;
-            transform.position = startposition;
+            ResetCard();
         }
     }
 
     public void SetCard()
     {
-        hoverStart = transform.position;
+        startposition = transform.position;
         startOrder = _canvas.sortingOrder;
         startScale = _rectTransform.localScale;
     }
 
     public void ResetCard()
     {
+        transform.position = startposition;
         _canvas.sortingOrder = startOrder;
-        transform.position = hoverStart;
         _rectTransform.localScale = startScale;
     }
 
@@ -67,7 +66,8 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (isDragging == false && inHand == true)
         {
-            SetCard();
+            startOrder = _canvas.sortingOrder;
+            startScale = _rectTransform.localScale;
             transform.position = new Vector2(transform.position.x, transform.position.y + 40);
             _rectTransform.localScale = new Vector2(2, 2);
             _canvas.sortingOrder = 10;
@@ -81,4 +81,5 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             ResetCard();
         }
     }
+
 }
