@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool inHand;
+    public Hand hand;
     private bool isDragging = false;
     private Vector2 startposition, hoverStart, startScale;
     private RectTransform _rectTransform, childrenTransform;
@@ -48,17 +49,28 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
+    public void SetCard()
+    {
+        hoverStart = transform.position;
+        startOrder = _canvas.sortingOrder;
+        startScale = _rectTransform.localScale;
+    }
+
+    public void ResetCard()
+    {
+        _canvas.sortingOrder = startOrder;
+        transform.position = hoverStart;
+        _rectTransform.localScale = startScale;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isDragging == false && inHand == true)
         {
-            hoverStart = transform.position;
-            startOrder = _canvas.sortingOrder;
-            startScale = _rectTransform.localScale;
-            transform.position = new Vector2(transform.position.x, transform.position.y + 50);
+            SetCard();
+            transform.position = new Vector2(transform.position.x, transform.position.y + 40);
             _rectTransform.localScale = new Vector2(2, 2);
             _canvas.sortingOrder = 10;
-            Debug.Log(gameObject.name);
         }
     }
 
@@ -66,10 +78,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (isDragging == false && inHand == true)
         {
-            _canvas.sortingOrder = startOrder;
-            transform.position = hoverStart;
-            _rectTransform.localScale = startScale;
-            Debug.Log(gameObject.name + " is no longer");
+            ResetCard();
         }
     }
 }
