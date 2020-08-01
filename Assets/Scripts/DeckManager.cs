@@ -18,7 +18,7 @@ public class DeckManager : MonoBehaviour
     {
         CreateDeck();
         ShuffleDeck();
-        //DrawCards(startingHandSize);
+        
     }
 
     // Update is called once per frame

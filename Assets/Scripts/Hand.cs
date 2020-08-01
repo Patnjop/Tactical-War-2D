@@ -5,7 +5,8 @@ using UnityEngine;
 public class Hand : MonoBehaviour
 {
     public int handSize;
-    public float cardWidth, cardGap;
+    public float cardWidth, cardHeight, cardGap;
+    public bool cardActive;
     public List<GameObject> cards = new List<GameObject>();
     public DiscardPile DiscardPile;
     public DeckManager DeckManager;
@@ -44,7 +45,7 @@ public class Hand : MonoBehaviour
         {
             cards[i].GetComponent<CardDragDrop>().ResetCard();
             _transformPosition.x = firstCardX - (i * (cardGap + cardWidth));
-            _transformPosition.y = (CanvasRect.position.y / 4);
+            _transformPosition.y = cardHeight / 2;
             cards[i].GetComponent<CardDragDrop>().UpdateCard(_transformPosition, i);
         }
     }

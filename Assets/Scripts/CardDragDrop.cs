@@ -8,13 +8,14 @@ using UnityEngine.UIElements;
 public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool inHand;
-    private bool isDragging, placeable, cardActive = false;
+    public bool isDragging = false;
+    private bool placeable, cardActive = false;
     private Vector2 startposition, hoverStart, startScale;
     private RectTransform _rectTransform;
     private Canvas _canvas;
     private int startOrder;
     public Hand hand;
-    
+
     private void Start()
     {
         _canvas = GetComponent<Canvas>();
@@ -40,7 +41,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             placeable = true;
         }
 
-        if (other.CompareTag("Card"))
+        if (other.CompareTag("Card") && other.GetComponent<CardDragDrop>().isDragging == true)
         {
             cardActive = true;
         }
@@ -65,6 +66,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (inHand == true)
         {
             ResetCard();
+            hand.cardActive = true;
             isDragging = true;
             SetCard();
         }
@@ -75,7 +77,6 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (inHand == true && placeable == false)
         {
-            isDragging = false;
             ResetCard();
         }
         else if (inHand == true && placeable == true)
@@ -85,6 +86,8 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             _canvas.sortingOrder = startOrder;
             hand.CardPlayed(gameObject);
         }
+
+        hand.cardActive = false;
     }
     
     //saves the original information of the card before moving
@@ -101,6 +104,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         transform.position = startposition;
         _canvas.sortingOrder = startOrder;
         _rectTransform.localScale = startScale;
+        isDragging = false;
     }
     
     //Alters each card when a new card is added to the hand
@@ -124,12 +128,14 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     //makes a card larger when hovered over
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isDragging == false && inHand == true && cardActive == false)
+        if (isDragging == false && inHand == true && hand.cardActive == false)
         {
             startOrder = _canvas.sortingOrder;
-            startScale = _rectTransform.localScale;
-            transform.position = new Vector2(transform.position.x, transform.position.y + 40);
-            _rectTransform.localScale = new Vector2(2, 2);
+            var localScale = _rectTransform.localScale;
+            startScale = localScale;
+            localScale = new Vector2(localScale.x * 2, localScale.y *2);
+            _rectTransform.localScale = localScale;
+            transform.position = new Vector2(transform.position.x, transform.position.y + _rectTransform.rect.height / 2);
             _canvas.sortingOrder = 10;
         }
     }
@@ -137,7 +143,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     //returns the card to it's original state when no longer hovered over
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isDragging == false && inHand == true && cardActive == false)
+        if (isDragging == false && inHand == true && hand.cardActive == false)
         {
             ResetCard();
         }
