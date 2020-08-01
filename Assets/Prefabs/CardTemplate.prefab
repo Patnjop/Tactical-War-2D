@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: -1518795438980361621}
   - component: {fileID: -3725266176870919804}
   - component: {fileID: 3514659511876259137}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: CardTemplate
-  m_TagString: Untagged
+  m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inHand: 0
+  hand: {fileID: 0}
 --- !u!114 &-1518795438980361621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ GameObject:
   - component: {fileID: 660928309993089377}
   - component: {fileID: 1680045518351764436}
   - component: {fileID: 1021142470924802863}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
