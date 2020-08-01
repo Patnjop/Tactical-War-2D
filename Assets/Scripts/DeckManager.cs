@@ -10,21 +10,22 @@ public class DeckManager : MonoBehaviour
     public List<GameObject> handofCards = new List<GameObject>();
     
     public Hand hand;
+    private DraftCards _draftCards;
     public DiscardPile DiscardPile;
     private GameObject tempCard;
     
     // Start is called before the first frame update
     void Start()
     {
+        _draftCards = DiscardPile.GetComponent<DraftCards>();
         CreateDeck();
         ShuffleDeck();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && _draftCards.drafting == false)
         {
             DrawCards(1f);
         }
@@ -33,6 +34,7 @@ public class DeckManager : MonoBehaviour
         {
             deckSize = 0;
             ReShuffle();
+            ShuffleDeck();
         }
     }
 

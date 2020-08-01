@@ -40,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 533.3333, y: 224.74527}
-  m_SizeDelta: {x: 140, y: 200}
+  m_SizeDelta: {x: 175, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1390633366
 Canvas:
@@ -94,7 +94,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inHand: 0
   isDragging: 0
+  isDrafting: 0
+  startScale: {x: 1, y: 1}
+  draftScale: 2
   hand: {fileID: 0}
+  DiscardPile: {fileID: 0}
 --- !u!114 &-1518795438980361621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +144,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 407573846305869408}
+          m_TargetAssemblyTypeName: CardDragDrop, Assembly-CSharp
+          m_MethodName: MouseClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!61 &-3725266176870919804
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,7 +184,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 140, y: 200}
+  m_Size: {x: 175, y: 250}
   m_EdgeRadius: 0
 --- !u!50 &3514659511876259137
 Rigidbody2D:
@@ -222,7 +242,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 140, y: 200}
+  m_SizeDelta: {x: 175, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1680045518351764436
 CanvasRenderer:

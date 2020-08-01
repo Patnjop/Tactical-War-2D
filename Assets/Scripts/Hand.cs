@@ -14,20 +14,22 @@ public class Hand : MonoBehaviour
     private float initialCardGap;
     public GameObject Canvas;
     RectTransform CanvasRect;
+    private DraftCards _draftCards;
 
     // Start is called before the first frame update
     void Start()
     {
         initialCardGap = cardGap;
         CanvasRect = Canvas.GetComponent<RectTransform>();
+        _draftCards = DiscardPile.GetComponent<DraftCards>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && _draftCards.drafting == false)
         {
-            Discard();
+            DiscardHand();
             handSize = 0;
             cardGap = initialCardGap;
         }
@@ -37,7 +39,7 @@ public class Hand : MonoBehaviour
     {
         if (handSize > 5 && handSize <= 10)
         {
-            cardGap -= 5f;
+            cardGap -= 8f;
         }
 
         var firstCardX = ((handSize - 1) * 0.5f * cardWidth + (handSize - 1) * 0.5f * cardGap) + (CanvasRect.position.x);
@@ -50,18 +52,22 @@ public class Hand : MonoBehaviour
         }
     }
 
-    public void Discard()
+    public void DiscardHand()
     {
         int discardCount = handSize;
         for (int d = discardCount - 1; d >= 0; d--)
         {
-            cards[d].GetComponent<CardDragDrop>().DiscardCard(DiscardPile.transform.position);
-            GameObject cardToDiscard = cards[d];
+            AddToDiscard(cards[d]);
             cards.Remove(cards[d]);
-            DiscardPile.discardPile.Add(cardToDiscard);
-            DiscardPile.discardCount++;
             DeckManager.currentHandCount--;
         }
+    }
+
+    public void AddToDiscard(GameObject g)
+    {
+        g.GetComponent<CardDragDrop>().DiscardCard(DiscardPile.transform.position);
+        DiscardPile.discardPile.Add(g);
+        DiscardPile.discardCount++;
     }
 
     public void CardPlayed(GameObject g)

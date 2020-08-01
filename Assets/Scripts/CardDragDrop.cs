@@ -8,27 +8,34 @@ using UnityEngine.UIElements;
 public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool inHand;
-    public bool isDragging = false;
+    public bool isDragging, isDrafting = false;
     private bool placeable, cardActive = false;
-    private Vector2 startposition, hoverStart, startScale;
-    private RectTransform _rectTransform;
+    private Vector2 startposition, hoverStart;
+    public Vector2 startScale;
+    public RectTransform _rectTransform;
     private Canvas _canvas;
+    private Camera camera;
     private int startOrder;
+    public float draftScale;
+    private Vector3 scale;
     public Hand hand;
+    public DiscardPile DiscardPile;
 
     private void Start()
     {
+        camera = Camera.main;
         _canvas = GetComponent<Canvas>();
         _rectTransform = GetComponent<RectTransform>();
-        startScale = _rectTransform.localScale;
+        //startScale = _rectTransform.localScale;
         hand = GameObject.Find("Hand").GetComponent<Hand>();
+        DiscardPile = GameObject.Find("Discard Pile").GetComponent<DiscardPile>();
     }
 
     private void Update()
     {
         if (isDragging)
         {
-            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            transform.position = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 100));
             _canvas.sortingOrder = 10;
         }
     }
@@ -60,10 +67,20 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
+    public void MouseClick()
+    {
+        if (isDrafting == true)
+        {
+            hand.AddToDiscard(gameObject);
+            isDrafting = false;
+            DiscardPile.GetComponent<DraftCards>().EndDraft(gameObject);
+        }
+    }
+
     //called when card is dragged
     public void StartDrag()
     {
-        if (inHand == true)
+        if (inHand == true && DiscardPile.GetComponent<DraftCards>().drafting == false)
         {
             ResetCard();
             hand.cardActive = true;
@@ -75,7 +92,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     //called when mouse drag is released
     public void EndDrag()
     {
-        if (inHand == true && placeable == false)
+        if (inHand == true && placeable == false && DiscardPile.GetComponent<DraftCards>().drafting == false)
         {
             ResetCard();
         }
