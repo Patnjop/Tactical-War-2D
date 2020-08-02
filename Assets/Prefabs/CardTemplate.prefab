@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -1518795438980361621}
   - component: {fileID: -3725266176870919804}
   - component: {fileID: 3514659511876259137}
+  - component: {fileID: 1997575512228646311}
   m_Layer: 10
   m_Name: CardTemplate
   m_TagString: Card
@@ -96,6 +97,7 @@ MonoBehaviour:
   isDragging: 0
   isDrafting: 0
   startScale: {x: 1, y: 1}
+  _rectTransform: {fileID: 0}
   draftScale: 2
   hand: {fileID: 0}
   DiscardPile: {fileID: 0}
@@ -207,6 +209,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &1997575512228646311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7229572601296771365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d70f21ec72b2ee041a5e6ece0246c86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CardDatabase: {fileID: 0}
+  thisCard: []
+  thisId: 0
+  id: 0
+  cost: 0
+  cardName: 
+  description: 
 --- !u!1 &7842187824960899336
 GameObject:
   m_ObjectHideFlags: 0

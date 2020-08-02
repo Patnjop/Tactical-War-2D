@@ -42,10 +42,12 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < deckSize; i++)
         {
+            int rnd = Random.Range(0, 2);
             GameObject newCard = Instantiate(card, canvas.transform, true);
             newCard.transform.position = transform.position;
             deck.Add(newCard);
             deck[i].name = "Card number " + i;
+            deck[i].GetComponent<ThisCard>().thisId = rnd;
         }
     }
 
