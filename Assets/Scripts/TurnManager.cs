@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
     public float mana, manaPerTurn;
+    public Text manaText;
     
     // Start is called before the first frame update
     void Start()
@@ -15,7 +17,7 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        manaText.text = "Mana: " + mana.ToString("F1");
     }
 
     IEnumerator AddMana()

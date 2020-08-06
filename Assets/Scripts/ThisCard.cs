@@ -10,6 +10,8 @@ public class ThisCard : MonoBehaviour
 
     public int thisId, index, cost;
 
+    public Image image;
+    public Sprite sprite;
     public Text costText, nameText, descriptionText;
     
 
@@ -19,18 +21,22 @@ public class ThisCard : MonoBehaviour
     {
         _CardDatabase = GameObject.Find("GameManager").GetComponent<CardDatabase>();
         thisCard.Add(_CardDatabase.allCards[thisId]);
+        
+        index = thisCard[0].index;
+        cost = thisCard[0].cost;
+        cardName = thisCard[0].cardName;
+        description = thisCard[0].description;
+        sprite = thisCard[0].sprite;
+
+        nameText.text = "" + cardName;
+        descriptionText.text = "" + description;
+        costText.text = "" + cost;
+        image.sprite = sprite;
     }
 
     // Update is called once per frame
     void Update()
     {
-        index = thisCard[0].index;
-        cost = thisCard[0].cost;
-        cardName = thisCard[0].cardName;
-        description = thisCard[0].description;
-
-        nameText.text = "" + cardName;
-        descriptionText.text = "" + description;
-        costText.text = "" + cost;
+        
     }
 }
