@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ThisCard : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class ThisCard : MonoBehaviour
     public List<Card> thisCard = new List<Card>();
 
     public int thisId, index, cost;
+
+    public Text costText, nameText, descriptionText;
+    
 
     public string cardName, description;
     // Start is called before the first frame update
@@ -24,5 +28,9 @@ public class ThisCard : MonoBehaviour
         cost = thisCard[0].cost;
         cardName = thisCard[0].cardName;
         description = thisCard[0].description;
+
+        nameText.text = "" + cardName;
+        descriptionText.text = "" + description;
+        costText.text = "" + cost;
     }
 }

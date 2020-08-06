@@ -42,11 +42,11 @@ public class Hand : MonoBehaviour
             cardGap -= 8f;
         }
 
-        var firstCardX = ((handSize - 1) * 0.5f * cardWidth + (handSize - 1) * 0.5f * cardGap) + (CanvasRect.position.x);
+        var firstCardX = - ((handSize - 1) * 0.5f * cardWidth + (handSize - 1) * 0.5f * cardGap) + (CanvasRect.position.x);
         for (int i = 0; i < handSize; i++)
         {
             cards[i].GetComponent<CardDragDrop>().ResetCard();
-            _transformPosition.x = firstCardX - (i * (cardGap + cardWidth));
+            _transformPosition.x = firstCardX + (i * (cardGap + cardWidth));
             _transformPosition.y = cardHeight / 2;
             cards[i].GetComponent<CardDragDrop>().UpdateCard(_transformPosition, i);
         }

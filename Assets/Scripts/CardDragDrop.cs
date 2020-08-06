@@ -18,8 +18,11 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private int startOrder;
     public float draftScale;
     private Vector3 scale;
-    public Hand hand;
-    public DiscardPile DiscardPile;
+    private Hand hand;
+    private DiscardPile DiscardPile;
+    private DraftCards _draftCards;
+    private TurnManager _turnManager;
+    private ThisCard _card;
 
     private void Start()
     {
@@ -29,6 +32,9 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         //startScale = _rectTransform.localScale;
         hand = GameObject.Find("Hand").GetComponent<Hand>();
         DiscardPile = GameObject.Find("Discard Pile").GetComponent<DiscardPile>();
+        _turnManager = GameObject.Find("GameManager").GetComponent<TurnManager>();
+        _draftCards = DiscardPile.GetComponent<DraftCards>();
+        _card = GetComponent<ThisCard>();
     }
 
     private void Update()
@@ -80,7 +86,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     //called when card is dragged
     public void StartDrag()
     {
-        if (inHand == true && DiscardPile.GetComponent<DraftCards>().drafting == false)
+        if (inHand == true && _draftCards.drafting == false) 
         {
             ResetCard();
             hand.cardActive = true;
@@ -92,16 +98,22 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     //called when mouse drag is released
     public void EndDrag()
     {
-        if (inHand == true && placeable == false && DiscardPile.GetComponent<DraftCards>().drafting == false)
+        if (inHand == true && placeable == false && _draftCards.drafting == false)
         {
             ResetCard();
         }
-        else if (inHand == true && placeable == true)
+        else if (inHand == true && placeable == true && _card.cost > _turnManager.mana)
+        {
+            ResetCard();
+        }
+        else if (inHand == true && placeable == true && _card.cost <= _turnManager.mana)
         {
             inHand = false;
             isDragging = false;
             _canvas.sortingOrder = startOrder;
             hand.CardPlayed(gameObject);
+            _turnManager.mana -= _card.cost;
+            Mathf.Round(_turnManager.mana * Mathf.Pow(10, 1));
         }
 
         hand.cardActive = false;
