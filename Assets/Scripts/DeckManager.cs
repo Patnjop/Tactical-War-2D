@@ -42,7 +42,7 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < deckSize; i++)
         {
-            int rnd = Random.Range(0, 2);
+            int rnd = Random.Range(0, CardDatabase.CardList.Count);
             GameObject newCard = Instantiate(card, canvas.transform, true);
             newCard.transform.position = transform.position;
             deck.Add(newCard);

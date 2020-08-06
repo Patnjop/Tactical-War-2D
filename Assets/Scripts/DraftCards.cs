@@ -36,7 +36,7 @@ public class DraftCards : MonoBehaviour
         {
             GameObject draftCard = Instantiate(card, canvas.transform, true);
             draftCard.name = "Drafted Card " + draftIndex;
-            draftCard.GetComponent<ThisCard>().thisId = Random.Range(0, 2);
+            draftCard.GetComponent<ThisCard>().thisId = Random.Range(0, CardDatabase.CardList.Count);
             draftCard.transform.position = new Vector3((i+1) * ((cameraHalfWidth * 2) / (draftAmount + 1)) - cameraHalfWidth, cameraHalfHeight, 0);
             draftCard.GetComponent<Canvas>().sortingOrder = 5;
             draftCard.GetComponent<RectTransform>().localScale= new Vector2(2, 2);

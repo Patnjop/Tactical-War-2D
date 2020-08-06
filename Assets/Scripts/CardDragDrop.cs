@@ -9,12 +9,12 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public bool inHand;
     public bool isDragging, isDrafting = false;
-    private bool placeable, cardActive = false;
+    public bool placeable, cardActive = false;
     private Vector2 startposition, hoverStart;
     public Vector2 startScale;
     public RectTransform _rectTransform;
     private Canvas _canvas;
-    private Camera camera;
+    private new Camera camera;
     private int startOrder;
     public float draftScale;
     private Vector3 scale;
@@ -47,14 +47,14 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     //called when card collides with playable zone
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Field"))
         {
             placeable = true;
         }
 
-        if (other.CompareTag("Card") && other.GetComponent<CardDragDrop>().isDragging == true)
+        if (other.CompareTag("Card"))
         {
             cardActive = true;
         }
@@ -98,22 +98,21 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     //called when mouse drag is released
     public void EndDrag()
     {
-        if (inHand == true && placeable == false && _draftCards.drafting == false)
+        if (inHand == true)
         {
-            ResetCard();
-        }
-        else if (inHand == true && placeable == true && _card.cost > _turnManager.mana)
-        {
-            ResetCard();
-        }
-        else if (inHand == true && placeable == true && _card.cost <= _turnManager.mana)
-        {
-            inHand = false;
-            isDragging = false;
-            _canvas.sortingOrder = startOrder;
-            hand.CardPlayed(gameObject);
-            _turnManager.mana -= _card.cost;
-            Mathf.Round(_turnManager.mana * Mathf.Pow(10, 1));
+            if (_card.cost > _turnManager.mana || placeable == false || cardActive == true)
+            {
+                ResetCard();
+            }
+            else if (inHand == true && placeable == true && _card.cost <= _turnManager.mana && cardActive == false)
+            {
+                inHand = false;
+                isDragging = false;
+                _canvas.sortingOrder = startOrder;
+                hand.CardPlayed(gameObject);
+                _turnManager.mana -= _card.cost;
+                Mathf.Round(_turnManager.mana * Mathf.Pow(10, 1));
+            }
         }
 
         hand.cardActive = false;
