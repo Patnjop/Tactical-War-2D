@@ -26,11 +26,28 @@ public class ClickManager : MonoBehaviour
                         !hit.collider.gameObject.GetComponent<BaseUnit>().selected;
                     if (hit.collider.gameObject.GetComponent<BaseUnit>().selected == true)
                     {
+                        foreach (GameObject g in selectedUnits)
+                        {
+                            g.GetComponent<BaseUnit>().selected = false;
+                        }
+                        selectedUnits.Clear();
                         selectedUnits.Add(hit.collider.gameObject);
+                        hit.collider.gameObject.GetComponent<BaseUnit>().selected = true;
                     }
-                    else
+                    else if (hit.collider.gameObject.GetComponent<BaseUnit>().selected == false)
                     {
-                        selectedUnits.Remove(hit.collider.gameObject);
+                        foreach (GameObject g in selectedUnits)
+                        {
+                            g.GetComponent<BaseUnit>().selected = false;
+                        }
+                        selectedUnits.Clear();
+                    }
+                }
+                else
+                {
+                    foreach (GameObject g in selectedUnits)
+                    {
+                        g.GetComponent<BaseUnit>().selected = false;
                     }
                 }
                 Debug.Log(hit.collider.gameObject.name);
@@ -47,5 +64,11 @@ public class ClickManager : MonoBehaviour
                 g.GetComponent<BaseUnit>().moveToPoint(targetMousePos2D);
             }
         }
+    }
+
+    public void BeginDrag()
+    {
+        GameObject DragBox = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        DragBox.transform.position = Input.mousePosition;
     }
 }

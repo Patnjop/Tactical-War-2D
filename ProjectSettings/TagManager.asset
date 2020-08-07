@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Field
   - Card
+  - UnitRange
   layers:
   - Default
   - TransparentFX

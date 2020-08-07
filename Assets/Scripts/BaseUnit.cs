@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BaseUnit : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class BaseUnit : MonoBehaviour
     public bool selected, enemySelected, moving, isAttacking;
 
     private GameObject visionBox, selectedEnemy;
+    private ClickManager _clickManager;
     [SerializeField]
     private List<GameObject> enemysInRange = new List<GameObject>();
     private float proximity = 0.2f, idleTimer;
@@ -19,6 +21,7 @@ public class BaseUnit : MonoBehaviour
     {
         createVisionRange();
         direction = transform.position;
+        _clickManager = GameObject.Find("GameManager").GetComponent<ClickManager>();
     }
 
     // Update is called once per frame
@@ -42,21 +45,35 @@ public class BaseUnit : MonoBehaviour
         {
             selectEnemy();
         }
+
         else if (enemysInRange.Count <= 0)
         {
             enemySelected = false;
             selectedEnemy = null;
         }
-
-        if (Vector2.Distance(transform.position, selectedEnemy.transform.position) >= attackRange && idleTimer >= idleWaitTime)
+        
+        if (health <= 0)
         {
-            ApproachEnemy();
-            idleTimer = 0f;
+            Die();
         }
-        else if (Vector2.Distance(transform.position, selectedEnemy.transform.position) < attackRange && isAttacking == false)
+
+        if (selectedEnemy != null)
         {
-            StartCoroutine(nameof(Attack));
-            isAttacking = true;
+            if (Vector2.Distance(transform.position, selectedEnemy.transform.position) >= attackRange &&
+                idleTimer >= idleWaitTime)
+            {
+                ApproachEnemy();
+                idleTimer = 0f;
+            }
+            else if (Vector2.Distance(transform.position, selectedEnemy.transform.position) < attackRange &&
+                     isAttacking == false)
+            {
+                if (moving == false)
+                {
+                    StartCoroutine(nameof(Attack));
+                    isAttacking = true;
+                }
+            }
         }
     }
 
@@ -73,8 +90,9 @@ public class BaseUnit : MonoBehaviour
     public void createVisionRange()
     {
         visionBox = new GameObject();
-        visionBox.transform.position = transform.position;
+        visionBox.transform.position = new Vector3(transform.position.x, transform.position.y, 2);
         visionBox.transform.parent = transform;
+        visionBox.tag = "UnitRange";
         visionBox.AddComponent<BoxCollider2D>();
         visionBox.GetComponent<BoxCollider2D>().isTrigger = true;
         visionBox.GetComponent<BoxCollider2D>().size = new Vector2(visionRange, visionRange);
@@ -111,11 +129,39 @@ public class BaseUnit : MonoBehaviour
 
     IEnumerator Attack()
     {
-        Debug.Log("aaaaa");
-        yield return new WaitForSeconds(1 / attackRate);
-        isAttacking = false;
+        int rnd = Random.Range(1, 100);
+        if (rnd > hitChance)
+        {
+            Debug.Log("miss " + rnd);
+            yield return new WaitForSeconds(1 / attackRate);
+            rnd = Random.Range(1, 100);
+            isAttacking = false;
+        }
+        else if (rnd <= hitChance)
+        {
+            Debug.Log("hit " + rnd);
+            selectedEnemy.GetComponent<Enemy>().TakeDamage(damage);
+            yield return new WaitForSeconds(1 / attackRate);
+            rnd = Random.Range(1, 100);
+            isAttacking = false;
+        }
     }
-    
+
+    public void TakeDamage(float damageTaken)
+    {
+        health -= damageTaken;
+    }
+
+    public void Die()
+    {
+        if (selected == true)
+        {
+            _clickManager.selectedUnits.Remove(gameObject);
+        }
+
+        Destroy(gameObject);
+    }
+
     //adds enemies to a list when they enter vision range of a unit
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -133,4 +179,5 @@ public class BaseUnit : MonoBehaviour
             enemysInRange.Remove(other.gameObject);
         }
     }
+    
 }
