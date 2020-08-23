@@ -13,6 +13,7 @@ public class ThisCard : MonoBehaviour
     public Image image;
     public Sprite sprite;
     public Text costText, nameText, descriptionText;
+    public GameObject unit;
     
 
     public string cardName, description;
@@ -27,6 +28,7 @@ public class ThisCard : MonoBehaviour
         cardName = thisCard[0].cardName;
         description = thisCard[0].description;
         sprite = thisCard[0].sprite;
+        unit = thisCard[0].unit;
 
         nameText.text = "" + cardName;
         descriptionText.text = "" + description;

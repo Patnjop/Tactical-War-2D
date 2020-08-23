@@ -17,3 +17,4 @@ MonoBehaviour:
   cardName: Archer
   description: Like hidden arrows, their enemies will quiver
   sprite: {fileID: 21300000, guid: 49c336b077532ee4cb5132fdc71af9bd, type: 3}
+  unit: {fileID: 4699685914153267214, guid: 8372c1dc6359deb41b315b8ec030b158, type: 3}

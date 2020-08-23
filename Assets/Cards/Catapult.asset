@@ -17,3 +17,4 @@ MonoBehaviour:
   cardName: Catapult
   description: Any hingers?
   sprite: {fileID: 21300000, guid: b12d231f8bf2f434e9cb97051a33e597, type: 3}
+  unit: {fileID: 4699685914153267214, guid: e2e3898d5806b794e83a2a12b615d734, type: 3}

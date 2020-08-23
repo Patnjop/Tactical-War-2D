@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 279331361}
   - component: {fileID: 279331360}
   - component: {fileID: 279331362}
+  - component: {fileID: 279331363}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -233,7 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mana: 0
-  manaPerTurn: 0.2
+  manaPerTurn: 2
   manaText: {fileID: 9965667}
 --- !u!4 &279331361
 Transform:
@@ -266,6 +267,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5cd25d9b7040ff24fbd5e8e32a5fe67a, type: 2}
   - {fileID: 11400000, guid: 183d7e21a46a2ef4aa1e2a1bd385b639, type: 2}
   - {fileID: 11400000, guid: 1506bac4cd877d445a38b52aa0195682, type: 2}
+--- !u!114 &279331363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279331359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df44926b9d370a749ab29207820ce35b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedUnits: []
 --- !u!1 &412772446
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +846,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 23.450073, y: 216.92252}
@@ -856,7 +870,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903054914}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31.242535, y: -43.09986, z: -193.05537}
+  m_LocalPosition: {x: -31.242535, y: -43.09986, z: 100}
   m_LocalScale: {x: 1.1644832, y: 1.1644832, z: 1.1644832}
   m_Children: []
   m_Father: {fileID: 412772450}

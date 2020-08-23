@@ -10,6 +10,7 @@ public class Card : ScriptableObject
 
     public string cardName, description;
     public Sprite sprite;
+    public GameObject unit;
     
     // Start is called before the first frame update
     void Start()

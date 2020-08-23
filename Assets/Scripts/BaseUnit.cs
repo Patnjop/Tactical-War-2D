@@ -46,7 +46,7 @@ public class BaseUnit : MonoBehaviour
             selectEnemy();
         }
 
-        else if (enemysInRange.Count <= 0)
+        else if (enemysInRange.Count <= 0 && enemySelected == true)
         {
             enemySelected = false;
             selectedEnemy = null;
@@ -90,7 +90,7 @@ public class BaseUnit : MonoBehaviour
     public void createVisionRange()
     {
         visionBox = new GameObject();
-        visionBox.transform.position = new Vector3(transform.position.x, transform.position.y, 2);
+        visionBox.transform.position = new Vector3(transform.position.x, transform.position.y, 180);
         visionBox.transform.parent = transform;
         visionBox.tag = "UnitRange";
         visionBox.AddComponent<BoxCollider2D>();

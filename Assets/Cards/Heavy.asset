@@ -17,3 +17,4 @@ MonoBehaviour:
   cardName: Heavy
   description: Too big for his boots
   sprite: {fileID: 21300000, guid: a6b5654857e1cfb4fbae8152b862e409, type: 3}
+  unit: {fileID: 7221406725581751548, guid: 9eb7b05473631f646b0ec2ad4aa30b5c, type: 3}

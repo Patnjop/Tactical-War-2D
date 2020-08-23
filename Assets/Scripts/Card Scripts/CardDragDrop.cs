@@ -15,6 +15,7 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public RectTransform _rectTransform;
     private Canvas _canvas;
     private new Camera camera;
+    private BoxCollider2D _collider2D;
     private int startOrder;
     public float draftScale;
     private Vector3 scale;
@@ -112,6 +113,8 @@ public class CardDragDrop : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 hand.CardPlayed(gameObject);
                 _turnManager.mana -= _card.cost;
                 Mathf.Round(_turnManager.mana * Mathf.Pow(10, 1));
+                Instantiate(_card.unit, transform.position, Quaternion.identity);
+                DiscardCard(DiscardPile.transform.position);
             }
         }
 
